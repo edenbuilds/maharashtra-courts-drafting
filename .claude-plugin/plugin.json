@@ -1,0 +1,30 @@
+{
+  "name": "maharashtra-courts-drafting",
+  "version": "1.0.1",
+  "description": "Local drafting plugin for the High Court of Judicature at Bombay and Maharashtra tribunals. Forum-config aware across Mumbai, Nagpur, Aurangabad and Kolhapur circuit, plus MAT, MACT, Consumer Commissions, DRT/DRAT, NCLT Mumbai, Labour/Industrial Courts, MahaRERA, Family Courts and allied State forums.",
+  "author": {
+    "name": "Maharashtra Courts Drafting"
+  },
+  "license": "MIT",
+  "keywords": [
+    "law",
+    "legal",
+    "drafting",
+    "maharashtra",
+    "bombay-high-court",
+    "mumbai",
+    "nagpur",
+    "aurangabad",
+    "kolhapur",
+    "writ-petition",
+    "article-226",
+    "mact",
+    "mat",
+    "consumer",
+    "drt",
+    "nclt",
+    "maharera",
+    "labour",
+    "pleadings"
+  ]
+}

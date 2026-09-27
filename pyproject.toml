@@ -1,0 +1,14 @@
+[project]
+name = "maharashtra-courts-drafting"
+version = "1.0.1"
+description = "Local MCP connector for Bombay High Court and Maharashtra tribunal drafting"
+requires-python = ">=3.10"
+dependencies = [
+  "mcp>=1.2.0,<2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.uv]
+package = false
