@@ -1,16 +1,34 @@
 # Usage
 
-## First message in a new chat
+## Before the first prompt
+
+1. Install — [`START_HERE.md`](START_HERE.md) / [`docs/INSTALL.md`](docs/INSTALL.md).  
+2. Confirm tools appear (`get_agent_instructions`, `list_case_types`, `get_template`).  
+3. Know the harness — [`docs/HARNESS.md`](docs/HARNESS.md).
+
+In every new drafting chat the model should call **`get_agent_instructions()`** first (no arguments). That loads the orchestration runbook.
+
+Smoke test:
+
+> Call get_agent_instructions(), then list_case_types and list_templates. Confirm the harness is loaded; do not draft yet.
+
+---
+
+## First real matter
 
 > Draft a civil writ for my client against the Thane Municipal Corporation. Impugned notice dated 3 January 2026, demolition of a shop at [address]. Prayer for certiorari and stay. Bench should follow the district.
 
 Expected tool order:
 
-1. `get_agent_instructions()`
-2. `list_case_types()` / `resolve_bench("Thane", "high-court")` → `bombay-hc-mumbai`
-3. `create_case_folder(...)`
-4. Reader through Overseer
+1. `get_agent_instructions()` — harness  
+2. `list_case_types()` / `resolve_bench("Thane", "high-court")` → `bombay-hc-mumbai`  
+3. `create_case_folder(...)` — then drop papers into `inputs/`  
+4. Reader → Format → Drafter → Verifier → Refiner → Overseer  
 5. `save_draft_as_docx`
+
+You should see short stage lines in the chat (“Reader — …”, “Format — …”). Artifacts land in `~/Downloads/MH-Courts-Drafts/<label>/artifacts/`.
+
+---
 
 ## More prompts that map cleanly
 
@@ -33,7 +51,16 @@ Expected tool order:
 
 > Stay application travelling with the civil writ — demolition listed for Monday.
 
-Expected extras: `get_template("wp-reply-affidavit")` / `list_templates()`. Case-type keys include `wp-reply-affidavit`, `wp-rejoinder`, `stay-application`, `mat-reply`, `mact-written-statement`, `consumer-written-version`, `drt-written-statement`, `civil-written-statement`.
+Extras: `get_template("wp-reply-affidavit")` / `list_templates()`.  
+Keys: `wp-reply-affidavit`, `wp-rejoinder`, `stay-application`, `mat-reply`, `mact-written-statement`, `consumer-written-version`, `drt-written-statement`, `civil-written-statement`.
+
+## Ask the plugin how it works
+
+> How do I install this plugin?  
+→ `get_reference_note("getting-started")` or open `START_HERE.md`
+
+> Explain the drafting harness / orchestration.  
+→ `get_reference_note("harness")` or open `docs/HARNESS.md`
 
 ## Hard rules
 

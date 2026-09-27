@@ -2,9 +2,9 @@
   "manifest_version": "0.4",
   "name": "maharashtra-courts-drafting",
   "display_name": "Maharashtra Courts & Tribunals Drafting",
-  "version": "1.0.1",
-  "description": "Local drafting connector for the High Court of Judicature at Bombay (Mumbai, Nagpur, Aurangabad, Kolhapur circuit) and Maharashtra tribunals including MAT, MACT, Consumer Commissions, DRT/DRAT, NCLT Mumbai, Labour/Industrial Courts, MahaRERA and Family Courts. ACRONYM MAP: APL = application-482 (quashing). ABA = anticipatory-bail. BA = regular bail. WP = civil-wp. CrWP = criminal-wp. MAT = Maharashtra Administrative Tribunal OA (not matrimonial). STRICT PIPELINE: Reader → Format → Drafter → Verifier → Refiner → Overseer. First tool call is get_agent_instructions() with no arguments. Zero data leaves the machine.",
-  "long_description": "Maharashtra Courts & Tribunals Drafting is a local-execution MCPB extension. It ships forum-configs for every Bombay High Court seat that sits in Maharashtra (Principal Seat Mumbai, Nagpur Bench, Aurangabad Bench, Kolhapur circuit) plus the working State tribunals, and exposes a six-stage drafting pipeline as MCP tools. Output is a filing-grade .docx rendered by pandoc on the user's machine.",
+  "version": "1.0.2",
+  "description": "Local drafting connector for the High Court of Judicature at Bombay (Mumbai, Nagpur, Aurangabad, Kolhapur circuit) and Maharashtra tribunals including MAT, MACT, Consumer Commissions, DRT/DRAT, NCLT Mumbai, Labour/Industrial Courts, MahaRERA and Family Courts. Install from the private GitHub repo (see START_HERE.md). ACRONYM MAP: APL = application-482 (quashing). ABA = anticipatory-bail. BA = regular bail. WP = civil-wp. CrWP = criminal-wp. MAT = Maharashtra Administrative Tribunal OA (not matrimonial). STRICT PIPELINE: Reader \u2192 Format \u2192 Drafter \u2192 Verifier \u2192 Refiner \u2192 Overseer. First tool call is get_agent_instructions() with no arguments. Zero data leaves the machine.",
+  "long_description": "Maharashtra Courts & Tribunals Drafting is a local-execution MCP / Claude plugin. Clone https://github.com/edenbuilds/maharashtra-courts-drafting and install via /plugin install . or point Claude Desktop / Cursor at uv run server/main.py (see START_HERE.md and docs/INSTALL.md). It ships forum-configs for every Bombay High Court seat in Maharashtra plus State tribunals, long-form fill-in templates (including opposite-side replies), and a six-stage drafting harness exposed as MCP tools. Output is a filing-grade .docx rendered by pandoc on the user's machine.",
   "author": {
     "name": "Maharashtra Courts Drafting"
   },
@@ -43,25 +43,73 @@
     }
   },
   "tools": [
-    { "name": "list_case_types", "description": "List instruments this connector can draft." },
-    { "name": "get_case_type_format", "description": "Return the skill for one instrument." },
-    { "name": "get_agent_instructions", "description": "Mandatory first call. Orchestration script or one agent persona." },
-    { "name": "get_pleading_base", "description": "Shared pleading skeleton." },
-    { "name": "list_forums", "description": "List Bombay benches and Maharashtra tribunal configs." },
-    { "name": "get_forum_config", "description": "Header, separator, annexure prefix, paper, fees note." },
-    { "name": "resolve_bench", "description": "Map a Maharashtra district to the correct forum." },
-    { "name": "create_case_folder", "description": "Create inputs/ and artifacts/ on disk." },
-    { "name": "save_artifact", "description": "Save an allow-listed pipeline file." },
-    { "name": "read_case_folder", "description": "Read md / txt / pdf / docx in the case folder." },
-    { "name": "save_draft_as_docx", "description": "Render markdown to docx via pandoc." },
-    { "name": "get_reference_note", "description": "Load territorial, acronym, fee or e-filing notes." },
-    { "name": "list_templates", "description": "List every official long-form template." },
-    { "name": "get_template", "description": "Return a long-form template by case type or path." }
+    {
+      "name": "list_case_types",
+      "description": "List instruments this connector can draft."
+    },
+    {
+      "name": "get_case_type_format",
+      "description": "Return the skill for one instrument."
+    },
+    {
+      "name": "get_agent_instructions",
+      "description": "Mandatory first call. Orchestration script or one agent persona."
+    },
+    {
+      "name": "get_pleading_base",
+      "description": "Shared pleading skeleton."
+    },
+    {
+      "name": "list_forums",
+      "description": "List Bombay benches and Maharashtra tribunal configs."
+    },
+    {
+      "name": "get_forum_config",
+      "description": "Header, separator, annexure prefix, paper, fees note."
+    },
+    {
+      "name": "resolve_bench",
+      "description": "Map a Maharashtra district to the correct forum."
+    },
+    {
+      "name": "create_case_folder",
+      "description": "Create inputs/ and artifacts/ on disk."
+    },
+    {
+      "name": "save_artifact",
+      "description": "Save an allow-listed pipeline file."
+    },
+    {
+      "name": "read_case_folder",
+      "description": "Read md / txt / pdf / docx in the case folder."
+    },
+    {
+      "name": "save_draft_as_docx",
+      "description": "Render markdown to docx via pandoc."
+    },
+    {
+      "name": "get_reference_note",
+      "description": "Load getting-started, harness, territorial, acronym, fee or e-filing notes."
+    },
+    {
+      "name": "list_templates",
+      "description": "List every official long-form template."
+    },
+    {
+      "name": "get_template",
+      "description": "Return a long-form template by case type or path."
+    }
   ],
   "tools_generated": false,
   "compatibility": {
     "claude_desktop": ">=0.10.0",
-    "platforms": ["darwin", "win32", "linux"],
-    "runtimes": { "python": ">=3.10" }
+    "platforms": [
+      "darwin",
+      "win32",
+      "linux"
+    ],
+    "runtimes": {
+      "python": ">=3.10"
+    }
   }
 }

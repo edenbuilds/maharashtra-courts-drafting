@@ -31,3 +31,6 @@ reader · format · drafter · verifier · refiner · overseer
 list_case_types · get_case_type_format · get_agent_instructions · get_pleading_base · list_forums · get_forum_config · resolve_bench · create_case_folder · save_artifact · read_case_folder · save_draft_as_docx · get_reference_note · list_templates · get_template
 
 `get_case_type_format` loads the long-form template **before** the short skill note.
+
+`get_reference_note("getting-started")` and `get_reference_note("harness")` return install + orchestration docs (also on disk as `START_HERE.md`, `docs/INSTALL.md`, `docs/HARNESS.md`).
+

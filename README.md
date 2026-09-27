@@ -6,6 +6,85 @@ Covers the High Court of Judicature at Bombay (Principal Seat at Mumbai and Benc
 
 No marketplace branding. No remote publisher. All processing stays on the machine that runs the connector.
 
+**New here?** Open [`START_HERE.md`](START_HERE.md) — install + first prompt + harness in one page.
+
+| Doc | What’s inside |
+|---|---|
+| [`START_HERE.md`](START_HERE.md) | Install in 3 paths, first chat, mental model |
+| [`docs/INSTALL.md`](docs/INSTALL.md) | Claude Code / Desktop / Cursor / troubleshooting |
+| [`docs/HARNESS.md`](docs/HARNESS.md) | Orchestration, six agents, artifacts, tool map |
+| [`USAGE.md`](USAGE.md) | Copy-paste prompts (writ, reply, ABA, MAT…) |
+| [`docs/INVENTORY.md`](docs/INVENTORY.md) | What ships (templates, skills, forums, tools) |
+
+---
+
+## Install (quick)
+
+Private install source: **https://github.com/edenbuilds/maharashtra-courts-drafting**
+
+```bash
+git clone https://github.com/edenbuilds/maharashtra-courts-drafting.git
+cd maharashtra-courts-drafting
+```
+
+**Claude Code**
+
+```text
+/plugin install .
+```
+
+**Claude Desktop / Cursor (MCP)** — add to the host config (absolute path):
+
+```json
+{
+  "mcpServers": {
+    "maharashtra-courts-drafting": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/ABS/PATH/TO/maharashtra-courts-drafting",
+        "run",
+        "server/main.py"
+      ]
+    }
+  }
+}
+```
+
+Need: Python ≥ 3.10, `uv`, `pandoc`, `pdftotext` (poppler).  
+Full steps and smoke test → [`docs/INSTALL.md`](docs/INSTALL.md).
+
+---
+
+## The harness (how a draft actually runs)
+
+Every drafting chat starts with:
+
+```text
+get_agent_instructions()
+```
+
+That returns the **orchestration script**. The model then runs six agents in order — it must not skip to a free-form Word file.
+
+```
+Reader → Format → Drafter → Verifier → Refiner → Overseer → .docx
+```
+
+| Stage | Artifact |
+|---|---|
+| Reader | `case-facts.md` |
+| Format | `format-shell.md` (template + forum header; facts still slots) |
+| Drafter | `draft-v1.md` |
+| Verifier | `verification-report.md` |
+| Refiner | `draft-v2.md` |
+| Overseer | `opposing-notes.md` + `final-draft.md` |
+| Render | `final-draft.docx` via `save_draft_as_docx` |
+
+Format loads the **long-form template first**, then the short skill note.  
+Case files live under `~/Downloads/MH-Courts-Drafts/<label>/`.
+
+Deep dive → [`docs/HARNESS.md`](docs/HARNESS.md). Inside the plugin, call `get_reference_note("getting-started")` or `get_reference_note("harness")`.
+
 ---
 
 ## Long-form templates
@@ -79,52 +158,15 @@ Original Side jurisdiction lives at the **Principal Seat only**.
 
 ---
 
-## Six-stage pipeline (mandatory)
-
-1. **Reader** — ingest the case folder, build a fact ledger, apply the privacy firewall, halt if a required statute or order is missing.
-2. **Format** — load the case-type skill + the forum-config for the chosen Bombay bench or tribunal.
-3. **Drafter** — write Cause Title through List of Annexures in the forum's register.
-4. **Verifier** — anti-hallucination pass against the fact ledger.
-5. **Refiner** — apply verifier flags; strip model-voice; enforce paper, font, margin, annexure prefix.
-6. **Overseer** — opposing-counsel read; emit `final-draft.docx` after local re-substitution.
-
-Artifacts written, in order: `case-facts.md` → `format-shell.md` → `draft-v1.md` → `verification-report.md` → `draft-v2.md` → `opposing-notes.md` → `final-draft.docx`.
-
----
-
-## Install
-
-### Claude Desktop (MCPB)
-
-1. Settings → Extensions → Install Extension
-2. Select `maharashtra-courts-drafting.mcpb`
-3. Enable. New chat.
-
-### Claude Code plugin
-
-```text
-/plugin install ./maharashtra-courts-drafting
-```
-
-### From source
-
-Python ≥ 3.10, `pandoc` (docx render), `pdftotext` from poppler (PDF ingest).
-
-```bash
-uv --directory /path/to/maharashtra-courts-drafting run server/main.py
-```
-
----
-
 ## Tools
 
 | Tool | Purpose |
 |---|---|
+| `get_agent_instructions` | **Call first.** Orchestration harness, or one agent persona |
 | `list_case_types` | All supported instruments + acronym map |
 | `get_case_type_format` | Long-form template first, then short skill + checklist |
 | `get_template` | Long-form official form by case type or path |
 | `list_templates` | Every packed fill-in pleading |
-| `get_agent_instructions` | Call first, with no arguments, for the orchestration script |
 | `list_forums` | Bombay benches + Maharashtra tribunals |
 | `get_forum_config` | Header, parties separator, annexure prefix, paper, fees note |
 | `get_pleading_base` | Shared skeleton |
@@ -133,7 +175,7 @@ uv --directory /path/to/maharashtra-courts-drafting run server/main.py
 | `save_artifact` | Allow-listed pipeline files only |
 | `read_case_folder` | md / txt / pdf / docx |
 | `save_draft_as_docx` | Pandoc render, local re-substitution |
-| `get_reference_note` | Territorial, acronym, fee or e-filing note |
+| `get_reference_note` | `getting-started`, `harness`, territorial, acronyms, fees, efiling |
 
 ---
 

@@ -349,18 +349,30 @@ def _list_forums_internal() -> list[str]:
 
 
 ORCHESTRATION = """
-# Maharashtra Courts Drafting — orchestration script
+# Maharashtra Courts Drafting — orchestration harness
 
-Call this tool first, with no arguments. Then execute every step in order.
+You are running a local MCP drafting plugin for Bombay HC / Maharashtra forums.
+Call this tool first, with no arguments, at the start of every drafting chat.
 Do not write a standalone python-docx or JavaScript generator.
+
+If the user asks how to install or how this plugin works, also call
+get_reference_note("getting-started") and/or get_reference_note("harness"),
+and point them to START_HERE.md / docs/INSTALL.md / docs/HARNESS.md in the pack.
+
+Narrate each stage to the user in one short line. Do not dump this whole script
+unless they ask how the harness works.
+
+## Pipeline (mandatory order)
 
 1. Classify the instrument with list_case_types(). Trust the user's acronym.
    APL is application-482. ABA is anticipatory-bail. MAT is mat-oa unless the
-   user clearly means a matrimonial appeal.
+   user clearly means a matrimonial appeal. A writ reply is wp-reply-affidavit
+   — not a second writ.
 2. If a district is known, call resolve_bench(district, forum_family).
 3. create_case_folder(label). Ask the user to drop source papers into inputs/.
+   Default root: ~/Downloads/MH-Courts-Drafts/<label>/.
 4. Reader: get_agent_instructions("reader") → read_case_folder → save_artifact
-   "case-facts.md".
+   "case-facts.md". Privacy firewall first. No pleading yet.
 5. Format: get_agent_instructions("format") + get_template(case_type) +
    get_case_type_format + get_forum_config + get_pleading_base →
    save_artifact "format-shell.md". Long-form template loads before the
@@ -372,7 +384,8 @@ Do not write a standalone python-docx or JavaScript generator.
 9. Overseer: get_agent_instructions("overseer") → save_artifact
    "opposing-notes.md" and "final-draft.md".
 10. save_draft_as_docx on final-draft.md. Re-substitution is local.
-11. Stop. The advocate verifies citations, limitation, fees and territoriality.
+11. Stop. Remind the advocate to verify citations, limitation, fees and
+    territoriality. Read DISCLAIMER.md duty.
 
 Do not skip Verifier or Overseer.
 """.strip()
@@ -787,15 +800,51 @@ def get_template(name: str) -> str:
     )
 )
 def get_reference_note(name: str) -> str:
-    """Load a packed reference: territorial-jurisdiction, acronyms, court-fees-stamp, efiling."""
-    safe = Path(name).name
-    if not safe.endswith(".md"):
-        safe = f"{safe}.md"
-    path = REFERENCES_DIR / safe
-    if not path.exists():
-        available = ", ".join(p.stem for p in REFERENCES_DIR.glob("*.md"))
-        return f"Unknown reference '{name}'. Available: {available}."
-    return path.read_text(encoding="utf-8")
+    """Load a packed reference.
+
+    Names: getting-started, harness, territorial-jurisdiction, acronyms,
+    court-fees-stamp, efiling. Also accepts docs/INSTALL or docs/HARNESS.
+    """
+    aliases = {
+        "install": "getting-started",
+        "start": "getting-started",
+        "start-here": "getting-started",
+        "orchestration": "harness",
+        "pipeline": "harness",
+        "howto": "getting-started",
+    }
+    raw = name.strip().lower().removesuffix(".md")
+    raw = aliases.get(raw, raw)
+    # Prefer references/, then docs/ for long-form guides
+    candidates = [
+        REFERENCES_DIR / f"{Path(raw).name}.md",
+        BUNDLE_ROOT / "docs" / f"{Path(raw).name}.md",
+        BUNDLE_ROOT / "docs" / "INSTALL.md" if raw in {"install", "getting-started"} else None,
+        BUNDLE_ROOT / "docs" / "HARNESS.md" if raw == "harness" else None,
+        BUNDLE_ROOT / "START_HERE.md" if raw in {"getting-started", "start-here"} else None,
+    ]
+    for path in candidates:
+        if path is None:
+            continue
+        if path.exists() and path.is_file():
+            # For getting-started / harness, append the longer doc when both exist
+            text = path.read_text(encoding="utf-8")
+            if path.parent == REFERENCES_DIR and raw == "getting-started":
+                extra = BUNDLE_ROOT / "docs" / "INSTALL.md"
+                if extra.exists():
+                    text = text + "\n\n---\n\n" + extra.read_text(encoding="utf-8")
+            if path.parent == REFERENCES_DIR and raw == "harness":
+                extra = BUNDLE_ROOT / "docs" / "HARNESS.md"
+                if extra.exists():
+                    text = text + "\n\n---\n\n" + extra.read_text(encoding="utf-8")
+            return text
+    available = ", ".join(
+        sorted(
+            {p.stem for p in REFERENCES_DIR.glob("*.md")}
+            | {"INSTALL", "HARNESS", "getting-started", "harness"}
+        )
+    )
+    return f"Unknown reference '{name}'. Available: {available}."
 
 
 if __name__ == "__main__":
