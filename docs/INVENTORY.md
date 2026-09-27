@@ -1,6 +1,6 @@
 # Inventory
 
-## Long-form templates (47)
+## Long-form templates (46)
 
 High Court: civil writ, criminal writ, PIL, first appeal, second appeal, criminal appeal, criminal revision, s.528/482 APL, ABA, regular bail, contempt, matrimonial appeal, MACT first appeal, **affidavit in reply to writ**, **rejoinder**, index-synopsis-annexures.
 
