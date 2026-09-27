@@ -7,24 +7,26 @@ It drafts Bombay High Court and Maharashtra tribunal pleadings on your machine. 
 
 ## Install (pick one)
 
-### A. Claude Code — from the private GitHub repo (usual path)
+### A. Claude Code — from GitHub (usual path)
 
 ```bash
-# clone once
 git clone https://github.com/edenbuilds/maharashtra-courts-drafting.git
 cd maharashtra-courts-drafting
+```
 
-# install as a local plugin
+Then in Claude Code:
+
+```text
 /plugin install .
 ```
 
-Or, if your Claude Code build supports a GitHub path:
+Or, if your build supports a GitHub plugin URL:
 
 ```text
 /plugin install github:edenbuilds/maharashtra-courts-drafting
 ```
 
-You need **read access** to the private repo (accept the collaborator invite first).
+The repo is **public** — no invite needed.
 
 ### B. Claude Desktop — MCP extension
 

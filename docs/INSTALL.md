@@ -12,7 +12,7 @@ Repo (public):
 
 | Tool | Why |
 |---|---|
-| Git | Clone the private repo |
+| Git | Clone the repo |
 | Python ≥ 3.10 | MCP server |
 | [uv](https://github.com/astral-sh/uv) | Runs the server with pinned deps (`mcp>=1.2,<2`) |
 | [pandoc](https://pandoc.org) | Renders `final-draft.docx` |
@@ -30,8 +30,6 @@ pdftotext -v
 ---
 
 ## 2. Get the pack
-
-Accept the GitHub collaborator invite, then:
 
 ```bash
 git clone https://github.com/edenbuilds/maharashtra-courts-drafting.git
@@ -163,7 +161,7 @@ Restart the MCP host (or re-run `/plugin install .`) so it picks up server and t
 | `mcp` / FastMCP import error | Pack pins `mcp>=1.2,<2` — use `uv run`, do not install mcp 2.x into the env |
 | `pandoc failed` | Install pandoc; re-run `save_draft_as_docx` |
 | PDF unread | Install poppler (`pdftotext`) |
-| Private clone 404 | Accept Write invite; use an account that can see `edenbuilds/maharashtra-courts-drafting` |
+| Clone 404 | Check the URL — repo is public at `edenbuilds/maharashtra-courts-drafting` |
 | Model skips pipeline | Remind it: first call `get_agent_instructions()`; see [`HARNESS.md`](HARNESS.md) |
 
 ---

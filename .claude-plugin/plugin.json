@@ -1,7 +1,7 @@
 {
   "name": "maharashtra-courts-drafting",
   "version": "1.0.2",
-  "description": "Local drafting plugin for the High Court of Judicature at Bombay and Maharashtra tribunals. Install from the private GitHub repo — see START_HERE.md. Forum-config aware across Mumbai, Nagpur, Aurangabad and Kolhapur circuit, plus MAT, MACT, Consumer Commissions, DRT/DRAT, NCLT Mumbai, Labour/Industrial Courts, MahaRERA, Family Courts and allied State forums. Six-stage harness: get_agent_instructions() first.",
+  "description": "Local drafting plugin for the High Court of Judicature at Bombay and Maharashtra tribunals. Install from the public GitHub repo — see START_HERE.md. Forum-config aware across Mumbai, Nagpur, Aurangabad and Kolhapur circuit, plus MAT, MACT, Consumer Commissions, DRT/DRAT, NCLT Mumbai, Labour/Industrial Courts, MahaRERA, Family Courts and allied State forums. Six-stage harness: get_agent_instructions() first.",
   "author": {
     "name": "Maharashtra Courts Drafting"
   },
