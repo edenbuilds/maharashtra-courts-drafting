@@ -1,9 +1,9 @@
 # Install
 
 This pack is a **local MCP / Claude plugin**, not a website.  
-“Deploy” means: clone the private repo and point your host at `server/main.py`.
+“Deploy” means: clone the repo and point your host at `server/main.py`.
 
-Repo (private install source):  
+Repo (public):  
 **https://github.com/edenbuilds/maharashtra-courts-drafting**
 
 ---
